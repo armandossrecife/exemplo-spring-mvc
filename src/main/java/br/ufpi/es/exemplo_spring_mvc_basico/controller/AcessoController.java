@@ -25,6 +25,7 @@ public class AcessoController {
 		
 		if (email.equals("armando@ufpi.edu.br") && senha.equals("123")){
 			session.setAttribute("usuarioLogado", email);
+			session.setAttribute("usuario", email);
 			model.addAttribute("mensagem", "Bem vindo " + email);
 			System.out.println("Usuario " + email + " logado com sucess!");
 			return "pagina-principal";
