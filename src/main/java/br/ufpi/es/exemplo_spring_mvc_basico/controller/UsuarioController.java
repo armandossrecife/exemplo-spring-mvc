@@ -37,7 +37,7 @@ public class UsuarioController {
 	//recurso1
 	@RequestMapping(value="/recurso1")
 	public String recurso1(){
-		return "";
+		return "home";
 	}
 	
 	//recurso2
@@ -72,7 +72,7 @@ public class UsuarioController {
 	
 	//recurso 4
 	@RequestMapping(value="/listarUsuarios", method=RequestMethod.GET)
-	public String processarListaUsuarios(HttpServletRequest request, HttpSession session, Model model) throws ServletException, IOException {
+	public String processarListaUsuarios(HttpSession session, Model model) throws IOException {
 		List<Usuario> lista = controladorDados.getUsuarios();
 
 		if (session.getAttribute("usuario") != null) {
