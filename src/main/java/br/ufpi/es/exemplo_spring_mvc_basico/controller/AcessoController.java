@@ -1,5 +1,7 @@
 package br.ufpi.es.exemplo_spring_mvc_basico.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,13 +10,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 
 @Controller
 public class AcessoController {
 	
-	//recurso1
+	//recurso 1
+	@RequestMapping(value="/")
+	public ModelAndView home(HttpSession session) throws IOException{
+		if (session.getAttribute("usuario") != null){
+			return new ModelAndView("pagina-principal");
+		}else{
+			return new ModelAndView("home");
+		}
+	}
+	
+	//recurso2
 	@RequestMapping(value="/efetuarLogin", method=RequestMethod.POST)
 	public String processarLogin(Usuario usuario, HttpSession session, Model model){
 		String email;
@@ -36,13 +49,13 @@ public class AcessoController {
 		
 	}
 	
-	//recurso2
+	//recurso3
 	@RequestMapping(value="/formularioLogin")
 	public String carregarFormularioLogin(){
 		return "formulario-login";
 	}
 	
-	//recurso3
+	//recurso4
 	@RequestMapping(value="/logout")
 	public String processarLogout(HttpSession session) {
 		String nomeUsuario;
