@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -14,15 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.controller.ControladorUsuarios;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.RepositorioListaUsuarios;
+import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 
 @Controller
 public class UsuarioController {
 	private static final long serialVersionUID = 1L;
 	private RepositorioListaUsuarios repositorio;
-	private ControladorUsuarios controladorDados;
+	private UsuarioDAO controladorDados;
 	
 	public UsuarioController(){
 		this.iniciaControladorDados();
@@ -31,7 +30,7 @@ public class UsuarioController {
 	public void iniciaControladorDados(){
         repositorio = new RepositorioListaUsuarios();
         repositorio.populaUsuarios();
-        controladorDados = new ControladorUsuarios(repositorio);
+        controladorDados = new UsuarioDAO(repositorio);
 	}
 	
 	//recurso1

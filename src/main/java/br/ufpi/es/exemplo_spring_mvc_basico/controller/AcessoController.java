@@ -2,20 +2,33 @@ package br.ufpi.es.exemplo_spring_mvc_basico.controller;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.ufpi.es.exemplo_spring_mvc_basico.dados.RepositorioListaUsuarios;
+import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 
 @Controller
 public class AcessoController {
+	private RepositorioListaUsuarios repositorio;
+	private UsuarioDAO controladorDados;
+	
+	public AcessoController(){
+		this.iniciaControladorDados();
+	}
+	
+	public void iniciaControladorDados(){
+        repositorio = new RepositorioListaUsuarios();
+        repositorio.populaUsuarios();
+        controladorDados = new UsuarioDAO(repositorio);
+	}
+	
 	
 	//recurso 1
 	@RequestMapping(value="/")
@@ -32,13 +45,15 @@ public class AcessoController {
 	public String processarLogin(Usuario usuario, HttpSession session, Model model){
 		String email;
 		String senha;
+		Usuario usuarioAux;
 		
 		email = usuario.getEmail();
 		senha = usuario.getSenha();
+		usuarioAux = controladorDados.buscarPorEmail(email, senha);
 		
-		if (email.equals("armando@ufpi.edu.br") && senha.equals("123")){
+		if (usuarioAux != null){
 			session.setAttribute("usuarioLogado", email);
-			session.setAttribute("usuario", email);
+			session.setAttribute("usuario", usuarioAux);
 			model.addAttribute("mensagem", "Bem vindo " + email);
 			System.out.println("Usuario " + email + " logado com sucess!");
 			return "pagina-principal";

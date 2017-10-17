@@ -11,4 +11,5 @@ public interface IRepositorioUsuarios {
 	public void alterar(Usuario original, Usuario novo);
 	public void remover(Usuario u);
 	public List<Usuario> buscarPorConteudoETipo(String conteudo, String tipo);
+	public Usuario buscarPorEmail(String email, String senha);
 }

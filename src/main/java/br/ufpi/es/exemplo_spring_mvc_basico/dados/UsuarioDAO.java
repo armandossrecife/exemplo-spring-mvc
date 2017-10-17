@@ -1,14 +1,13 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.controller;
+package br.ufpi.es.exemplo_spring_mvc_basico.dados;
 
 import java.util.List;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.dados.IRepositorioUsuarios;
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 
-public class ControladorDadosUsuarios {
+public class UsuarioDAO {
 	IRepositorioUsuarios repositorio;
 	
-	public ControladorDadosUsuarios(IRepositorioUsuarios tipo){
+	public UsuarioDAO(IRepositorioUsuarios tipo){
 		this.repositorio = tipo;
 	}
 	
@@ -46,5 +45,9 @@ public class ControladorDadosUsuarios {
 	 */
 	public void inserir(Usuario u) {
 		this.repositorio.inserir(u);
+	}
+
+	public Usuario buscarPorEmail(String email, String senha) {
+		return repositorio.buscarPorEmail(email, senha);
 	}
 }

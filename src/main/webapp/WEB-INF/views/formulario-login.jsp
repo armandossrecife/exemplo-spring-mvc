@@ -10,7 +10,7 @@
 <p>Informe os dados de e-mail e senha</p>
 <form action="efetuarLogin" method="post"><br>
 E-mail<input name="email" type="text" value="armando@ufpi.edu.br"><br>
-Senha<input name="senha" type="password" value="123"><br>
+Senha<input name="senha" type="password" value="armando"><br>
 <button type="submit">Logar</button>
 <button>Cancelar</button>
 <p> ${mensagem}</p> 

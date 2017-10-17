@@ -34,6 +34,18 @@ public class RepositorioListaUsuarios implements IRepositorioUsuarios {
 		return usuario;
 	}
 	
+	public Usuario buscarPorEmail(String email, String senha) {		
+		Usuario usuario=null;
+		//percorre toda a lista e checa se o usuário existe com o mesmo login e senha
+		for(Usuario u:listaUsuarios){
+			if (u.getEmail().equals(email) && u.getSenha().equals(senha)){
+				usuario = u;
+				return usuario;
+			}
+		}
+		return usuario;
+	}
+	
 	/**
 	 * Faz a busca de usuário de acordo com o tipo selecionado
 	 * @param conteudo dado do usuário
