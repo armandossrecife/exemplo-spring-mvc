@@ -5,10 +5,10 @@ import java.util.List;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.IRepositorioUsuarios;
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 
-public class ControladorUsuarios {
+public class ControladorDadosUsuarios {
 	IRepositorioUsuarios repositorio;
 	
-	public ControladorUsuarios(IRepositorioUsuarios tipo){
+	public ControladorDadosUsuarios(IRepositorioUsuarios tipo){
 		this.repositorio = tipo;
 	}
 	
