@@ -55,7 +55,7 @@ public class AcessoController {
 			session.setAttribute("usuarioLogado", email);
 			session.setAttribute("usuario", usuarioAux);
 			model.addAttribute("mensagem", "Bem vindo " + email);
-			System.out.println("Usuario " + email + " logado com sucess!");
+			System.out.println("Usuario " + email + " logado com sucesso!");
 			return "pagina-principal";
 		}else{
 			model.addAttribute("mensagem", "Erro: usuario ou senha!");

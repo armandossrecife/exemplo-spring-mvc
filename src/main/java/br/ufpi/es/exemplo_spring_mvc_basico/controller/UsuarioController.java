@@ -55,7 +55,7 @@ public class UsuarioController {
 			model.addAttribute("usuarios", lista);
 			return "lista-usuarios";
 		}else {
-			return "principal";
+			return "home";
 		}
 	}
 	
