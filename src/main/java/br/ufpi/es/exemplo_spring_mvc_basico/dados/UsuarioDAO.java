@@ -7,6 +7,10 @@ import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 public class UsuarioDAO {
 	IRepositorioUsuarios repositorio;
 	
+	/**
+	 * Construtor
+	 * @param tipo repositorio
+	 */
 	public UsuarioDAO(IRepositorioUsuarios tipo){
 		this.repositorio = tipo;
 	}
@@ -47,7 +51,30 @@ public class UsuarioDAO {
 		this.repositorio.inserir(u);
 	}
 
+	/**
+	 * Faz a busca de um usuário por e-mail
+	 * @param email email do usuário 
+	 * @param senha senha do usuário
+	 * @return Usuário localizado
+	 */
 	public Usuario buscarPorEmail(String email, String senha) {
 		return repositorio.buscarPorEmail(email, senha);
+	}
+	
+	/**
+	 * Dado um usuário original alterar os dados do usuário
+	 * @param original dados originais
+	 * @param novo novos dados
+	 */
+	public void alterar(Usuario original, Usuario novo){
+		this.repositorio.alterar(original, novo);
+	}
+	
+	/**
+	 * Dado um usuário remove o usuário
+	 * @param u dados do usuario
+	 */
+	public void remover(Usuario u){
+		this.repositorio.remover(u);
 	}
 }

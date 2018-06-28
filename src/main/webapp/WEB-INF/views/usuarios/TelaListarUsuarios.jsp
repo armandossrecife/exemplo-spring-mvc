@@ -21,12 +21,15 @@
 			for (Usuario u : list) {
 				out.println(u.getId() + " - ");
 				out.println(u.getNome() + " - ");
-				out.println(u.getEmail());
+				out.println(u.getEmail() + " - " + "<a href='formularioAlterar'>Alterar</a> | <a href='removerUsuario'>Remover</a>");
 				out.println("<br>");
 			}
 		} else {
 			out.println("Nenhum resultado encontrado!");
 		}
 	%>
+	<div>
+	<p><a href="/exemplo-spring-mvc-basico">Voltar</a></p>
+	</div>	
 </body>
 </html>

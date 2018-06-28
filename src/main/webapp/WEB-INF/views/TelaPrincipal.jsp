@@ -10,6 +10,7 @@
 <p>Agora você pode usufruir de todas as funcionalidades do sistema X</p>
 <p>${mensagem}</p>
 
+<p><a href="formularioInserir">Inserir Usuario</a></p>
 <p><a href="listarUsuarios">Listar Usuarios </a></p>
 <p><a href="formularioBusca">Buscar Usuario </a></p>
 <p><a href="logout">Logout</a>
