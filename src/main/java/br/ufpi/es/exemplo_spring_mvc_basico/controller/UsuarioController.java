@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.RepositorioListaUsuarios;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
@@ -41,7 +42,7 @@ public class UsuarioController {
 	
 	//recurso2
 	@RequestMapping(value="/bucarUsuario", method=RequestMethod.POST)
-	protected String processarBusca(HttpServletRequest request, HttpSession session, Model model) throws ServletException, IOException {
+	protected ModelAndView processarBusca(HttpServletRequest request, HttpSession session, Model model) throws ServletException, IOException {
 		//recupar os dados passados pelo formulario de busca
 		String conteudo = request.getParameter("conteudobusca");
 		String tipo = request.getParameter("opcaotipo");
@@ -53,32 +54,32 @@ public class UsuarioController {
 		//checa se tem uma sessão válida e reencaminha a resposta para exibir o resultado da busca
 		if (session.getAttribute("usuario") != null) {
 			model.addAttribute("usuarios", lista);
-			return "lista-usuarios";
+			return new ModelAndView("lista-usuarios");
 		}else {
-			return "home";
+			return new ModelAndView("home");
 		}
 	}
 	
 	//recurso 3 
 	@RequestMapping(value="/formularioBusca", method=RequestMethod.GET)
-	public String carregaFormularioBusca(HttpSession session){		
+	public ModelAndView carregaFormularioBusca(HttpSession session){		
     	if (session.getAttribute("usuario") != null) {
-    		return("buscar-usuario");
+    		return(new ModelAndView("buscar-usuario"));
     	}else {
-    		return("home");
+    		return(new ModelAndView("home"));
     	}
 	}
 	
 	//recurso 4
 	@RequestMapping(value="/listarUsuarios", method=RequestMethod.GET)
-	public String processarListaUsuarios(HttpSession session, Model model) throws IOException {
+	public ModelAndView processarListaUsuarios(HttpSession session, Model model) throws IOException {
 		List<Usuario> lista = controladorDados.getUsuarios();
 
 		if (session.getAttribute("usuario") != null) {
 			model.addAttribute("usuarios", lista);
-			return("lista-usuarios");
+			return(new ModelAndView("lista-usuarios"));
 		} else {
-			return("home");
+			return(new ModelAndView("home"));
 		}
 
 	}

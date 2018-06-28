@@ -42,7 +42,7 @@ public class AcessoController {
 	
 	//recurso2
 	@RequestMapping(value="/efetuarLogin", method=RequestMethod.POST)
-	public String processarLogin(Usuario usuario, HttpSession session, Model model){
+	public ModelAndView processarLogin(Usuario usuario, HttpSession session, Model model){
 		String email;
 		String senha;
 		Usuario usuarioAux;
@@ -56,28 +56,28 @@ public class AcessoController {
 			session.setAttribute("usuario", usuarioAux);
 			model.addAttribute("mensagem", "Bem vindo " + email);
 			System.out.println("Usuario " + email + " logado com sucesso!");
-			return "pagina-principal";
+			return new ModelAndView("pagina-principal");
 		}else{
 			model.addAttribute("mensagem", "Erro: usuario ou senha!");
-			return "formulario-login";
+			return new ModelAndView("formulario-login");
 		}
 		
 	}
 	
 	//recurso3
 	@RequestMapping(value="/formularioLogin")
-	public String carregarFormularioLogin(){
-		return "formulario-login";
+	public ModelAndView carregarFormularioLogin(){
+		return new ModelAndView("formulario-login");
 	}
 	
 	//recurso4
 	@RequestMapping(value="/logout")
-	public String processarLogout(HttpSession session) {
+	public ModelAndView processarLogout(HttpSession session) {
 		String nomeUsuario;
 		
 		nomeUsuario = session.getAttribute("usuarioLogado").toString();
 		session.invalidate();
 		System.out.println("Usario " + nomeUsuario + " deslogado");
-		return "formulario-login";
+		return new ModelAndView("formulario-login");
 	}
 }
