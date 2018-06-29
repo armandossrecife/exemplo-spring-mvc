@@ -2,10 +2,21 @@ package br.ufpi.es.exemplo_spring_mvc_basico.dados;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 
+@Repository
+@Transactional
 public class UsuarioDAO {
 	IRepositorioUsuarios repositorio;
+	
+	@PersistenceContext
+	private EntityManager manager;
 	
 	/**
 	 * Construtor
@@ -13,6 +24,12 @@ public class UsuarioDAO {
 	 */
 	public UsuarioDAO(IRepositorioUsuarios tipo){
 		this.repositorio = tipo;
+	}
+	
+	/**
+	 * Construtor default
+	 */
+	public UsuarioDAO(){		
 	}
 	
 	/**
@@ -44,11 +61,11 @@ public class UsuarioDAO {
 	}
 	
 	/**
-	 * Insere um novo usuário no repositório
+	 * Insere um novo usuário no repositório ORM
 	 * @param u dados do Usuario
 	 */
 	public void inserir(Usuario u) {
-		this.repositorio.inserir(u);
+		manager.persist(u);
 	}
 
 	/**

@@ -1,6 +1,14 @@
 package br.ufpi.es.exemplo_spring_mvc_basico.modelo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Usuario {
+	
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	int id;
 	String nome;
 	String login;
@@ -37,5 +45,9 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
+	
+	@Override
+	public String toString(){
+		return "Usuario [id: " + this.id + ", nome: " + this.nome + ", login: " + this.login + ", e-mail: " + this.email + ", senha: " + this.senha +  "]"; 
+	}
 }

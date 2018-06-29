@@ -5,15 +5,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-@Configuration
-@ComponentScan(basePackages="br.ufpi.es.exemplo_spring_mvc_basico")
-@EnableWebMvc
-public class MvcConfiguration extends WebMvcConfigurerAdapter{
+import br.ufpi.es.exemplo_spring_mvc_basico.controller.AcessoController;
+import br.ufpi.es.exemplo_spring_mvc_basico.controller.UsuarioController;
+import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
 
+@Configuration
+@ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class})
+@EnableWebMvc
+public class AppWebConfiguration {
 	@Bean
 	public ViewResolver getViewResolver(){
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -22,8 +23,4 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 	
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	}
 }
