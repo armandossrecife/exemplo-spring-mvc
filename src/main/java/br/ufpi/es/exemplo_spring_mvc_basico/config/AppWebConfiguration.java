@@ -8,11 +8,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.ufpi.es.exemplo_spring_mvc_basico.controller.AcessoController;
+import br.ufpi.es.exemplo_spring_mvc_basico.controller.AdviceController;
 import br.ufpi.es.exemplo_spring_mvc_basico.controller.UsuarioController;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
 
 @Configuration
-@ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class})
+@ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class, AdviceController.class})
 @EnableWebMvc
 public class AppWebConfiguration {
 	@Bean

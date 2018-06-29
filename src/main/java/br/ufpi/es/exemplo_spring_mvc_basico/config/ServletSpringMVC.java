@@ -1,6 +1,7 @@
 package br.ufpi.es.exemplo_spring_mvc_basico.config;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -40,6 +41,12 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
         encodingFilter.setEncoding("UTF-8");
 
         return new Filter[] {encodingFilter};
+	}
+	
+	@Override
+	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+	    boolean done = registration.setInitParameter("throwExceptionIfNoHandlerFound", "true"); // -> true
+	    if(!done) throw new RuntimeException();
 	}
 
 }
