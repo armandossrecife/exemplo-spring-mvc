@@ -94,4 +94,13 @@ public class UsuarioDAO {
 	public void remover(Usuario u){
 		this.repositorio.remover(u);
 	}
+	
+	/**
+	 * Lista de usuários cadastrados
+	 * @return lista de usuários
+	 */
+	public List<Usuario> listar(){
+		String query = "select u from Usuario u";
+		return manager.createQuery(query, Usuario.class).getResultList();
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.RepositorioListaUsuarios;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
@@ -108,7 +109,7 @@ public class UsuarioController {
 	 */
 	@RequestMapping(value="/listarUsuarios", method=RequestMethod.GET)
 	public ModelAndView processarListaUsuarios(HttpSession session, Model model) throws IOException {
-		List<Usuario> lista = controladorDados.getUsuarios();
+		List<Usuario> lista = usuarioDAO.listar();
 
 		if (session.getAttribute("usuario") != null) {
 			model.addAttribute("usuarios", lista);
@@ -191,12 +192,12 @@ public class UsuarioController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/inserirUsuario")
-	public ModelAndView processarInserirUsuario(Usuario usuario, HttpSession session, Model model) throws ServletException, IOException{		
+	public ModelAndView processarInserirUsuario(Usuario usuario, HttpSession session, RedirectAttributes redirectAttribute) throws ServletException, IOException{		
 		if (session.getAttribute("usuario") != null) {
 			usuarioDAO.inserir(usuario);
 			System.out.println("Dados do usuário inserido: " + usuario);
-			model.addAttribute("mensagem", "Usuario inserido com sucesso!");
-			return new ModelAndView("TelaPrincipal");
+			redirectAttribute.addFlashAttribute("mensagem", "Usuario inserido com sucesso!");
+			return new ModelAndView("redirect:/listarUsuarios");
 		}else {
 			return new ModelAndView("Home");
 		}		
