@@ -8,26 +8,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Lista de usuários</title>
 </head>
-<body>	
-    <p>${mensagem}</p>
+<body>
+	<p>${mensagem}</p>
 	<table>
-    <tr>
-        <td>Id</td>
-        <td>Nome</td>
-        <td>E-mail</td>
-    </tr>
+		<tr>
+			<td>Id</td>
+			<td>Nome</td>
+			<td>E-mail</td>
+		</tr>
 
-    <c:forEach items="${usuarios}" var="usuario">
-        <tr>
-            <td>${usuario.id}</td>
-            <td>${usuario.nome}</td>
-            <td>${usuario.email}</td>
-        </tr>
-    </c:forEach>
-</table>
-	
+		<c:forEach items="${usuarios}" var="usuario">
+			<tr>
+				<td>${usuario.id}</td>
+				<td>${usuario.nome}</td>
+				<td>${usuario.email}</td>
+			</tr>
+		</c:forEach>
+	</table>
+
 	<div>
-	<p><a href="/exemplo-spring-mvc-basico">Voltar</a></p>
-	</div>	
+		<p>
+			<a href="/exemplo-spring-mvc-basico">Voltar</a>
+		</p>
+	</div>
 </body>
 </html>

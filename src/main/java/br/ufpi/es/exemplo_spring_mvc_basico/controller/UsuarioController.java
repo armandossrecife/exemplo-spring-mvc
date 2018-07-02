@@ -7,18 +7,24 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.RepositorioListaUsuarios;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
+import br.ufpi.es.exemplo_spring_mvc_basico.validation.UsuarioValidation;
 
 @Controller
 public class UsuarioController {
@@ -43,6 +49,11 @@ public class UsuarioController {
         repositorio = new RepositorioListaUsuarios();
         repositorio.populaUsuarios();
         controladorDados = new UsuarioDAO(repositorio);
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder){
+		binder.addValidators(new UsuarioValidation());
 	}
 	
 	//recurso1
@@ -122,33 +133,31 @@ public class UsuarioController {
 	//recurso 5
 	/**
 	 * Faz a alteração dos dados de um usuário
-	 * @param request HttpServletRequest da aplicação
+	 * @param usuario Usuario da aplicação
+	 * @param result BindingResult da aplicação para checar os erros
 	 * @param session Session do usuário da aplicação
-	 * @param model Model da aplicação
-	 * @return página TelaPrincipal.jsp | Home.jsp
+	 * @param redirect RedirectAttributes
+	 * @return página TelaListarUsuarios.jsp | Home.jsp
 	 * @throws ServletException trata a exceção ServletException caso aconteça
 	 * @throws IOException trata a exceção IOException caso aconteça
 	 */
 	@RequestMapping(value="/alterarUsuario", method=RequestMethod.POST)
-	public ModelAndView processarAlterarUsuario(HttpServletRequest request, HttpSession session, Model model) throws ServletException, IOException{
-		//Carrega os dados do usuário selecionado passados pelo formularioAlterarUsuario
-		String nome = request.getParameter("");
-		String login = request.getParameter("");
-		String email = request.getParameter("");
-		String senha = request.getParameter("");
-		
-		Usuario novo = new Usuario();
-		novo.setNome(nome);
-		novo.setLogin(login);
-		novo.setEmail(email);
-		novo.setSenha(senha);
-		
-		//checa se tem uma sessão válida e reencaminha o dashboard principal
+	public ModelAndView processarAlterarUsuario(@Valid Usuario usuario, BindingResult result, HttpSession session, RedirectAttributes redirectAttribute) 
+			throws ServletException, IOException{
+		//checa se tem uma sessão válida e reencaminha o dashboard lista de usuários
 		if (session.getAttribute("usuario") != null) {
+			if(result.hasErrors()){
+				System.out.println((result.getFieldErrorCount("nome") > 0) ? "nome em branco!" : "campo nome ok!");
+				System.out.println((result.getFieldErrorCount("login") > 0) ? "login em branco!" : "campo login ok!");
+				System.out.println((result.getFieldErrorCount("email") > 0) ? "email em branco!" : "campo email ok!");
+				System.out.println((result.getFieldErrorCount("senha") > 0) ? "senha em branco!" : "campo senha ok!");
+		        return new ModelAndView("usuarios/TelaInserirUsuario");
+		    }
 			//Com os novos dados passados chama o método alterar Usuário do DAO
 			//TODO fazer a alteração de acordo com o id do usuário alterado dados originais x novos dados
-			this.repositorio.alterar(null, novo);
-			return new ModelAndView("TelaPrincipal");
+			this.repositorio.alterar(null, usuario);
+			redirectAttribute.addFlashAttribute("mensagem", "Usuario alterado com sucesso!");
+			return new ModelAndView("redirect:/listarUsuarios");
 		}else {
 			return new ModelAndView("Home");
 		}		
@@ -183,17 +192,26 @@ public class UsuarioController {
 	}
 
 	/**
-	 * 
+	 * Insere usuário
 	 * @param usuario Dados do Usuário
+	 * @param result BindingResult que checa os erros de entrada da interface
 	 * @param session Session do usuário da aplicação
-	 * @param model Model da aplicação
+	 * @param redirect RedirectAttributes mensagem de redirect
 	 * @return página TelaPrincipal.jsp | Home.jsp
 	 * @throws ServletException 
 	 * @throws IOException
 	 */
 	@RequestMapping("/inserirUsuario")
-	public ModelAndView processarInserirUsuario(Usuario usuario, HttpSession session, RedirectAttributes redirectAttribute) throws ServletException, IOException{		
+	public ModelAndView processarInserirUsuario(@Valid Usuario usuario, BindingResult result, HttpSession session, RedirectAttributes redirectAttribute) 
+			throws ServletException, IOException{		
 		if (session.getAttribute("usuario") != null) {
+			if(result.hasErrors()){
+				System.out.println((result.getFieldErrorCount("nome") > 0) ? "nome em branco!" : "campo nome ok!");
+				System.out.println((result.getFieldErrorCount("login") > 0) ? "login em branco!" : "campo login ok!");
+				System.out.println((result.getFieldErrorCount("email") > 0) ? "email em branco!" : "campo email ok!");
+				System.out.println((result.getFieldErrorCount("senha") > 0) ? "senha em branco!" : "campo senha ok!");
+		        return new ModelAndView("usuarios/TelaInserirUsuario");
+		    }
 			usuarioDAO.inserir(usuario);
 			System.out.println("Dados do usuário inserido: " + usuario);
 			redirectAttribute.addFlashAttribute("mensagem", "Usuario inserido com sucesso!");
