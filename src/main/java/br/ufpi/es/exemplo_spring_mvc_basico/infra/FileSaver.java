@@ -1,7 +1,6 @@
 package br.ufpi.es.exemplo_spring_mvc_basico.infra;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 

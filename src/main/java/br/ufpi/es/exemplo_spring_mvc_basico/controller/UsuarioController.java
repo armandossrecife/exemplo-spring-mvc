@@ -208,8 +208,10 @@ public class UsuarioController {
 				System.out.println((result.getFieldErrorCount("senha") > 0) ? "senha em branco!" : "campo senha ok!");
 		        return new ModelAndView("usuarios/TelaInserirUsuario");
 		    }
-			String path = fileSaver.write("arquivos-imagem", imagem);
-			usuario.setImagemPath(path);
+			if (!imagem.isEmpty()){
+				String path = fileSaver.write("arquivos-imagem", imagem);
+				usuario.setImagemPath(path);				
+			}
 			usuarioDAO.inserir(usuario);
 			redirectAttribute.addFlashAttribute("mensagem", "Usuario inserido com sucesso!");
 			return new ModelAndView("redirect:/listarUsuarios");
