@@ -12,14 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
 
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
+import br.ufpi.es.exemplo_spring_mvc_basico.infra.FileSaver;
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 import br.ufpi.es.exemplo_spring_mvc_basico.validation.UsuarioValidation;
 
@@ -29,6 +31,9 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioDAO usuarioDAO;
+	
+	@Autowired
+	private FileSaver fileSaver;
 	
 	/**
 	 * Contrutor
@@ -192,7 +197,7 @@ public class UsuarioController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/inserirUsuario")
-	public ModelAndView processarInserirUsuario(@Valid Usuario usuario, BindingResult result, HttpSession session, 
+	public ModelAndView processarInserirUsuario(MultipartFile imagem,  @Valid Usuario usuario, BindingResult result, HttpSession session, 
 			RedirectAttributes redirectAttribute) throws ServletException, IOException{	
 		
 		if (session.getAttribute("usuario") != null) {
@@ -203,7 +208,8 @@ public class UsuarioController {
 				System.out.println((result.getFieldErrorCount("senha") > 0) ? "senha em branco!" : "campo senha ok!");
 		        return new ModelAndView("usuarios/TelaInserirUsuario");
 		    }
-			
+			String path = fileSaver.write("arquivos-imagem", imagem);
+			usuario.setImagemPath(path);
 			usuarioDAO.inserir(usuario);
 			redirectAttribute.addFlashAttribute("mensagem", "Usuario inserido com sucesso!");
 			return new ModelAndView("redirect:/listarUsuarios");

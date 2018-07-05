@@ -1,6 +1,7 @@
 package br.ufpi.es.exemplo_spring_mvc_basico.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -45,8 +46,10 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 	
 	@Override
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-	    boolean done = registration.setInitParameter("throwExceptionIfNoHandlerFound", "true"); // -> true
+	    boolean done = registration.setInitParameter("throwExceptionIfNoHandlerFound", "true"); 
 	    if(!done) throw new RuntimeException();
+	    
+	    registration.setMultipartConfig(new MultipartConfigElement(""));
 	}
 
 }

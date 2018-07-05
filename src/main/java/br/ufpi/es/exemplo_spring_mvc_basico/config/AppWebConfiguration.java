@@ -9,6 +9,8 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -18,9 +20,10 @@ import br.ufpi.es.exemplo_spring_mvc_basico.controller.AdviceController;
 import br.ufpi.es.exemplo_spring_mvc_basico.controller.UsuarioController;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.LogAcessoDAO;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
+import br.ufpi.es.exemplo_spring_mvc_basico.infra.FileSaver;
 
 @Configuration
-@ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class, AdviceController.class, LogAcessoDAO.class})
+@ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class, AdviceController.class, LogAcessoDAO.class, FileSaver.class})
 @EnableWebMvc
 public class AppWebConfiguration {
 	@Bean
@@ -48,5 +51,10 @@ public class AppWebConfiguration {
 	    formatterRegistrar.registerFormatters(conversionService);
 
 	    return conversionService;
+	}
+	
+	@Bean
+	public MultipartResolver multipartResolver(){
+		return new StandardServletMultipartResolver();
 	}
 }

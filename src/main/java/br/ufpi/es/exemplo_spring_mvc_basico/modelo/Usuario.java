@@ -14,6 +14,7 @@ public class Usuario {
 	String login;
 	String email;
 	String senha;
+	String imagemPath;
 	
 	public int getId() {
 		return id;
@@ -49,5 +50,12 @@ public class Usuario {
 	@Override
 	public String toString(){
 		return "Usuario [id: " + this.id + ", nome: " + this.nome + ", login: " + this.login + ", e-mail: " + this.email + ", senha: " + this.senha +  "]"; 
+	}
+	
+	public String getImagemPath() {
+		return imagemPath;
+	}
+	public void setImagemPath(String imagemPath) {
+		this.imagemPath = imagemPath;
 	}
 }
