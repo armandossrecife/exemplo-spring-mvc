@@ -10,7 +10,7 @@
 </head>
 <body>
 	<p>${mensagem}</p>
-	<c:if test="${not empty resultado.id}">
+	<c:if test="${not empty usuario.id}">
 		<table>
 			<tr>
 				<td>Id</td>
@@ -18,9 +18,9 @@
 				<td>E-mail</td>
 			</tr>
 			<tr>
-				<td>${resultado.id}</td>
-				<td>${resultado.nome}</td>
-				<td>${resultado.email}</td>
+				<td>${usuario.id}</td>
+				<td>${usuario.nome}</td>
+				<td>${usuario.email}</td>
 			</tr>
 		</table>
 	</c:if>

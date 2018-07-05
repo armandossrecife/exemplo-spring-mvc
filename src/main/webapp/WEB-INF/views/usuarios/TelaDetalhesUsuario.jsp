@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Lista de usuários</title>
+<title>Detalhes do Usuário</title>
 </head>
 <body>
 	<p>${mensagem}</p>
@@ -14,23 +14,21 @@
 		<tr>
 			<td>Id</td>
 			<td>Nome</td>
+			<td>Login</td>
 			<td>E-mail</td>
-			<td>Detalhes</td>
+			<td>Imagem</td>
 		</tr>
-
-		<c:forEach items="${usuarios}" var="usuario">
-			<tr>
-				<td>${usuario.id}</td>
-				<td>${usuario.nome}</td>
-				<td>${usuario.email}</td>
-				<td><a href="detalharUsuario?id=${usuario.id}">detalhes</a></td>
-				<td><a href="formularioAlterarUsuario?id=${usuario.id}">alterar</a></td>
-			</tr>
-		</c:forEach>
+		<tr>
+			<td>${usuario.id}</td>
+			<td>${usuario.nome}</td>
+			<td>${usuario.login}</td>
+			<td>${usuario.email}</td>
+			<td>${usuario.imagemPath}</td>
+		</tr>
 	</table>
 	<div>
 		<p>
-			<a href="/exemplo-spring-mvc-basico">Voltar</a>
+			<a href="/exemplo-spring-mvc-basico/listarUsuarios">Voltar</a>
 		</p>
 	</div>
 </body>

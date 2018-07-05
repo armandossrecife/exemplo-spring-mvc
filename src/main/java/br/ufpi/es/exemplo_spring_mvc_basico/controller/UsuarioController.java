@@ -72,12 +72,12 @@ public class UsuarioController {
 		String tipo = request.getParameter("opcaotipo");
 		String conteudo = request.getParameter("conteudobusca");
 		
-		Usuario resultado = usuarioDAO.buscarPorConteudo(conteudo, tipo);
+		Usuario usuario = usuarioDAO.buscarPorConteudo(conteudo, tipo);
 		
 		//checa se tem uma sessão válida e reencaminha a resposta para exibir o resultado da busca
-		if (session.getAttribute("usuario") != null) {
-			if (resultado != null){
-				model.addAttribute("resultado", resultado);
+		if (session.getAttribute("objetoUsuario") != null) {
+			if (usuario != null){
+				model.addAttribute("usuario", usuario);
 			}else {
 				model.addAttribute("mensagem" , "Não retornou nenhum resultado!");
 			}
@@ -95,7 +95,7 @@ public class UsuarioController {
 	 */
 	@RequestMapping(value="/formularioBusca", method=RequestMethod.GET)
 	public ModelAndView carregaFormularioBusca(HttpSession session){		
-    	if (session.getAttribute("usuario") != null) {
+    	if (session.getAttribute("objetoUsuario") != null) {
     		return(new ModelAndView("usuarios/TelaBuscarUsuario"));
     	}else {
     		return(new ModelAndView("Home"));
@@ -114,7 +114,7 @@ public class UsuarioController {
 	public ModelAndView processarListaUsuarios(HttpSession session, Model model){
 		List<Usuario> lista = usuarioDAO.listar();
 
-		if (session.getAttribute("usuario") != null) {
+		if (session.getAttribute("objetoUsuario") != null) {
 			model.addAttribute("usuarios", lista);
 			return(new ModelAndView("usuarios/TelaListarUsuarios"));
 		} else {
@@ -134,21 +134,27 @@ public class UsuarioController {
 	 * @throws IOException trata a exceção IOException caso aconteça
 	 */
 	@RequestMapping(value="/alterarUsuario", method=RequestMethod.POST)
-	public ModelAndView processarAlterarUsuario(@Valid Usuario usuario, BindingResult result, HttpSession session, RedirectAttributes redirectAttribute) 
+	public ModelAndView processarAlterarUsuario(MultipartFile imagem, @Valid Usuario usuario, BindingResult result, HttpSession session, RedirectAttributes redirectAttribute) 
 			throws ServletException, IOException{
 		//checa se tem uma sessão válida e reencaminha o dashboard lista de usuários
-		if (session.getAttribute("usuario") != null) {
+		if (session.getAttribute("objetoUsuario") != null) {
 			if(result.hasErrors()){
 				System.out.println((result.getFieldErrorCount("nome") > 0) ? "nome em branco!" : "campo nome ok!");
 				System.out.println((result.getFieldErrorCount("login") > 0) ? "login em branco!" : "campo login ok!");
 				System.out.println((result.getFieldErrorCount("email") > 0) ? "email em branco!" : "campo email ok!");
 				System.out.println((result.getFieldErrorCount("senha") > 0) ? "senha em branco!" : "campo senha ok!");
-		        return new ModelAndView("usuarios/TelaInserirUsuario");
+		        return new ModelAndView("usuarios/TelaAlterarUsuario");
 		    }
+			
+			if (!imagem.isEmpty()){
+				String path = fileSaver.write("arquivos-imagem", imagem);
+				usuario.setImagemPath(path);				
+			}
+			
 			//Com os novos dados passados chama o método alterar Usuário do DAO
 			//TODO fazer a alteração de acordo com o id do usuário alterado dados originais x novos dados
-			usuarioDAO.alterar(null, usuario);
-			redirectAttribute.addFlashAttribute("mensagem", "Usuario alterado com sucesso!");
+			usuarioDAO.alterar(usuario);
+			redirectAttribute.addFlashAttribute("mensagem", "Usuário alterado com sucesso!");
 			return new ModelAndView("redirect:/listarUsuarios");
 		}else {
 			return new ModelAndView("Home");
@@ -161,10 +167,13 @@ public class UsuarioController {
 	 * @param session Session do usuário da aplicação 
 	 * @return página TelaAlterarUsuario.jsp | Home.jsp
 	 */
-	@RequestMapping(value="/formularioAlterar", method=RequestMethod.GET)
-	public ModelAndView carregaFormularioAlterar(HttpSession session){		
-    	if (session.getAttribute("usuario") != null) {
-    		return(new ModelAndView("usuarios/TelaAlterarUsuario"));
+	@RequestMapping("/formularioAlterarUsuario")
+	public ModelAndView carregaFormularioAlterar(int id, HttpSession session){		
+		Usuario usuario = usuarioDAO.buscarPorId(id);
+    	if (session.getAttribute("objetoUsuario") != null) {
+    		ModelAndView mav = new ModelAndView("usuarios/TelaAlterarUsuario");
+    		mav.addObject("usuario", usuario);
+    		return(mav);
     	}else {
     		return(new ModelAndView("Home"));
     	}
@@ -178,7 +187,7 @@ public class UsuarioController {
 	 */
 	@RequestMapping(value="/formularioInserir", method=RequestMethod.GET)
 	public String carregarFormularioInserir(HttpSession session){
-		if (session.getAttribute("usuario") != null){
+		if (session.getAttribute("objetoUsuario") != null){
 			return "usuarios/TelaInserirUsuario"; 
 		}else{
 			return "Home"; 
@@ -200,7 +209,7 @@ public class UsuarioController {
 	public ModelAndView processarInserirUsuario(MultipartFile imagem,  @Valid Usuario usuario, BindingResult result, HttpSession session, 
 			RedirectAttributes redirectAttribute) throws ServletException, IOException{	
 		
-		if (session.getAttribute("usuario") != null) {
+		if (session.getAttribute("objetoUsuario") != null) {
 			if(result.hasErrors()){
 				System.out.println((result.getFieldErrorCount("nome") > 0) ? "nome em branco!" : "campo nome ok!");
 				System.out.println((result.getFieldErrorCount("login") > 0) ? "login em branco!" : "campo login ok!");
@@ -218,6 +227,18 @@ public class UsuarioController {
 		}else {
 			return new ModelAndView("Home");
 		}		
+	}
+	
+	@RequestMapping("/detalharUsuario")
+	public ModelAndView processarDetalhesUsuario(int id, HttpSession session){
+		if (session.getAttribute("objetoUsuario") != null){
+			ModelAndView mav = new ModelAndView("usuarios/TelaDetalhesUsuario");
+			Usuario usuario = usuarioDAO.buscarPorId(id);
+			mav.addObject("usuario", usuario);
+			return mav;
+		}else{
+			return new ModelAndView("Home");
+		}
 	}
 	
 }

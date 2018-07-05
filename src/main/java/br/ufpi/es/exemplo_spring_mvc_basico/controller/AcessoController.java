@@ -41,7 +41,7 @@ public class AcessoController {
 	//recurso 1
 	@RequestMapping(value="/")
 	public ModelAndView home(HttpSession session){
-		if (session.getAttribute("usuario") != null){
+		if (session.getAttribute("objetoUsuario") != null){
 			return new ModelAndView("TelaPrincipal");
 		}else{
 			return new ModelAndView("Home");
@@ -75,7 +75,7 @@ public class AcessoController {
 			
 		if (usuarioAux != null){
 			session.setAttribute("usuarioLogado", email);
-			session.setAttribute("usuario", usuarioAux);
+			session.setAttribute("objetoUsuario", usuarioAux);
 			model.addAttribute("mensagem", "Bem vindo " + email);
 			System.out.println("Usuario " + email + " logado com sucesso em "+ new ManipulaData().getDataFormatada() + "!");
 			logsDAO.inserir(log);
@@ -132,7 +132,7 @@ public class AcessoController {
 	public ModelAndView processarListaLogs(HttpSession session, Model model) {
 		List<LogAcesso> lista = logsDAO.getAcessos();
 
-		if (session.getAttribute("usuario") != null) {
+		if (session.getAttribute("objetoUsuario") != null) {
 			model.addAttribute("logs", lista);
 			return(new ModelAndView("logs/TelaListarLogsAcesso"));
 		} else {
