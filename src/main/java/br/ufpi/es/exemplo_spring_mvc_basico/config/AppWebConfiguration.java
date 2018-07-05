@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.datetime.DateFormatter;
+import org.springframework.format.datetime.DateFormatterRegistrar;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -12,10 +16,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import br.ufpi.es.exemplo_spring_mvc_basico.controller.AcessoController;
 import br.ufpi.es.exemplo_spring_mvc_basico.controller.AdviceController;
 import br.ufpi.es.exemplo_spring_mvc_basico.controller.UsuarioController;
+import br.ufpi.es.exemplo_spring_mvc_basico.dados.LogAcessoDAO;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
 
 @Configuration
-@ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class, AdviceController.class})
+@ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class, AdviceController.class, LogAcessoDAO.class})
 @EnableWebMvc
 public class AppWebConfiguration {
 	@Bean
@@ -35,4 +40,13 @@ public class AppWebConfiguration {
 	    return messageSource;
 	}
 	
+	@Bean
+	public FormattingConversionService mvcConversionService(){
+	    DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+	    DateFormatterRegistrar formatterRegistrar = new DateFormatterRegistrar();
+	    formatterRegistrar.setFormatter(new DateFormatter("dd/MM/yyyy HH:mm:ss"));
+	    formatterRegistrar.registerFormatters(conversionService);
+
+	    return conversionService;
+	}
 }

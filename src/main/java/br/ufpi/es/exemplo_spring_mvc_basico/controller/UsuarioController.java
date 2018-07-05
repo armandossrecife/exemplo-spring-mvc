@@ -1,7 +1,6 @@
 package br.ufpi.es.exemplo_spring_mvc_basico.controller;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.dados.RepositorioListaUsuarios;
 import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
 import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
 import br.ufpi.es.exemplo_spring_mvc_basico.validation.UsuarioValidation;
@@ -29,8 +26,6 @@ import br.ufpi.es.exemplo_spring_mvc_basico.validation.UsuarioValidation;
 @Controller
 public class UsuarioController {
 	private static final long serialVersionUID = 1L;
-	private RepositorioListaUsuarios repositorio;
-	private UsuarioDAO controladorDados;
 	
 	@Autowired
 	private UsuarioDAO usuarioDAO;
@@ -39,16 +34,6 @@ public class UsuarioController {
 	 * Contrutor
 	 */
 	public UsuarioController(){
-		this.iniciaControladorDados();
-	}
-	
-	/**
-	 * Carrega o repositório de usuários para ser manipulado
-	 */
-	public void iniciaControladorDados(){
-        repositorio = new RepositorioListaUsuarios();
-        repositorio.populaUsuarios();
-        controladorDados = new UsuarioDAO(repositorio);
 	}
 	
 	@InitBinder
@@ -77,19 +62,21 @@ public class UsuarioController {
 	 * @throws IOException exceção do tipo IOException
 	 */
 	@RequestMapping(value="/buscarUsuario", method=RequestMethod.POST)
-	protected ModelAndView processarBusca(HttpServletRequest request, HttpSession session, Model model) throws ServletException, IOException {
+	protected ModelAndView processarBusca(HttpServletRequest request, HttpSession session, Model model) {
 		//recupar os dados passados pelo formulario de busca
 		String tipo = request.getParameter("opcaotipo");
 		String conteudo = request.getParameter("conteudobusca");
 		
-		List<Usuario> lista = new LinkedList<Usuario>();
-		
-		lista = controladorDados.buscaPorConteudoETipo(conteudo, tipo);
+		Usuario resultado = usuarioDAO.buscarPorConteudo(conteudo, tipo);
 		
 		//checa se tem uma sessão válida e reencaminha a resposta para exibir o resultado da busca
 		if (session.getAttribute("usuario") != null) {
-			model.addAttribute("usuarios", lista);
-			return new ModelAndView("usuarios/TelaListarUsuarios");
+			if (resultado != null){
+				model.addAttribute("resultado", resultado);
+			}else {
+				model.addAttribute("mensagem" , "Não retornou nenhum resultado!");
+			}
+			return new ModelAndView("usuarios/TelaResultadoBusca");
 		}else {
 			return new ModelAndView("Home");
 		}
@@ -119,7 +106,7 @@ public class UsuarioController {
 	 * @throws IOException trata a exceção IOException caso aconteça
 	 */
 	@RequestMapping(value="/listarUsuarios", method=RequestMethod.GET)
-	public ModelAndView processarListaUsuarios(HttpSession session, Model model) throws IOException {
+	public ModelAndView processarListaUsuarios(HttpSession session, Model model){
 		List<Usuario> lista = usuarioDAO.listar();
 
 		if (session.getAttribute("usuario") != null) {
@@ -155,7 +142,7 @@ public class UsuarioController {
 		    }
 			//Com os novos dados passados chama o método alterar Usuário do DAO
 			//TODO fazer a alteração de acordo com o id do usuário alterado dados originais x novos dados
-			this.repositorio.alterar(null, usuario);
+			usuarioDAO.alterar(null, usuario);
 			redirectAttribute.addFlashAttribute("mensagem", "Usuario alterado com sucesso!");
 			return new ModelAndView("redirect:/listarUsuarios");
 		}else {
@@ -163,6 +150,7 @@ public class UsuarioController {
 		}		
 	}
 
+	//recurso 6
 	/**
 	 * Carrega o formulário Alterar Usuário
 	 * @param session Session do usuário da aplicação 
@@ -177,6 +165,7 @@ public class UsuarioController {
     	}
 	}
 
+	//recurso 7
 	/**
 	 * Carrega o formulário Inserir Usuário
 	 * @param session Session do usuário da aplicação
@@ -191,6 +180,7 @@ public class UsuarioController {
 		}
 	}
 
+	//recurso 8
 	/**
 	 * Insere usuário
 	 * @param usuario Dados do Usuário
@@ -202,8 +192,9 @@ public class UsuarioController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/inserirUsuario")
-	public ModelAndView processarInserirUsuario(@Valid Usuario usuario, BindingResult result, HttpSession session, RedirectAttributes redirectAttribute) 
-			throws ServletException, IOException{		
+	public ModelAndView processarInserirUsuario(@Valid Usuario usuario, BindingResult result, HttpSession session, 
+			RedirectAttributes redirectAttribute) throws ServletException, IOException{	
+		
 		if (session.getAttribute("usuario") != null) {
 			if(result.hasErrors()){
 				System.out.println((result.getFieldErrorCount("nome") > 0) ? "nome em branco!" : "campo nome ok!");
@@ -212,8 +203,8 @@ public class UsuarioController {
 				System.out.println((result.getFieldErrorCount("senha") > 0) ? "senha em branco!" : "campo senha ok!");
 		        return new ModelAndView("usuarios/TelaInserirUsuario");
 		    }
+			
 			usuarioDAO.inserir(usuario);
-			System.out.println("Dados do usuário inserido: " + usuario);
 			redirectAttribute.addFlashAttribute("mensagem", "Usuario inserido com sucesso!");
 			return new ModelAndView("redirect:/listarUsuarios");
 		}else {

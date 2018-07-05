@@ -3,7 +3,9 @@ package br.ufpi.es.exemplo_spring_mvc_basico.dados;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,35 +33,7 @@ public class UsuarioDAO {
 	 */
 	public UsuarioDAO(){		
 	}
-	
-	/**
-	 * Retorna todos os usuários cadastrados na lista de usuários
-	 * @return lista de usuários
-	 */
-	public List<Usuario> getUsuarios(){
-		return repositorio.listar();
-	}
-	
-	/**
-	 * Dados login e senha de um usuário checa se ele existe
-	 * @param login login do usuário
-	 * @param senha senha do usuário
-	 * @return um Usuário se existe e null se não existe
-	 */
-	public Usuario buscar(String login, String senha){
-		return repositorio.buscar(login, senha);
-	}
-	
-	/**
-	 * Faz uma busca de usuário de acordo com o tipo de busca escolhida
-	 * @param conteudo dado do usuário
-	 * @param tipo tipo nome, email ou login
-	 * @return lista contendo resultado da busca
-	 */
-	public List<Usuario> buscaPorConteudoETipo(String conteudo, String tipo){
-		return repositorio.buscarPorConteudoETipo(conteudo, tipo);
-	}
-	
+		
 	/**
 	 * Insere um novo usuário no repositório ORM
 	 * @param u dados do Usuario
@@ -69,30 +43,97 @@ public class UsuarioDAO {
 	}
 
 	/**
-	 * Faz a busca de um usuário por e-mail
+	 * Faz a busca de um usuário por e-mail e senha
 	 * @param email email do usuário 
 	 * @param senha senha do usuário
 	 * @return Usuário localizado
 	 */
 	public Usuario buscarPorEmail(String email, String senha) {
-		return repositorio.buscarPorEmail(email, senha);
+		Usuario usuario = null;
+		Query query = null;
+
+		String pesquisa = "select u from Usuario u where u.email = :email and u.senha=:senha";
+		query = manager.createQuery(pesquisa);
+		query.setParameter("email", email);
+		query.setParameter("senha", senha);
+		
+		try{
+			usuario = (Usuario) query.getSingleResult();
+		}catch (NoResultException nre) {
+			System.out.println("Erro: " + nre.getMessage());
+		}
+			
+		return (usuario);
+	}	
+	
+	/**
+	 * Faz a busca de usuário por nome
+	 * @param nome do usuário
+	 * @return usuário
+	 */
+	public Usuario buscarPorNome(String nome){
+		Usuario usuario = null;
+		Query query = null;
+
+		String pesquisa = "select u from Usuario u where u.nome=:nome";
+		query = manager.createQuery(pesquisa);
+		query.setParameter("nome", nome);
+		
+		try{
+			usuario = (Usuario) query.getSingleResult();
+		}catch (NoResultException nre) {
+			System.out.println("Erro: " + nre.getMessage());
+			return (null);
+		}
+			
+		return (usuario);
 	}
 	
 	/**
-	 * Dado um usuário original alterar os dados do usuário
-	 * @param original dados originais
-	 * @param novo novos dados
+	 * Faz a busca de usuário por e-mail
+	 * @param email do usuário
+	 * @return usuário
 	 */
-	public void alterar(Usuario original, Usuario novo){
-		this.repositorio.alterar(original, novo);
+	public Usuario buscarPorEmail(String email){
+		Usuario usuario = null;
+		Query query = null;
+
+		String pesquisa = "select u from Usuario u where u.email = :email";
+		query = manager.createQuery(pesquisa);
+		query.setParameter("email", email);
+		
+		try{
+			usuario = (Usuario) query.getSingleResult();
+		}catch (NoResultException nre) {
+			System.out.println("Erro: " + nre.getMessage());
+			return(null);
+		}
+			
+		return (usuario);
+
 	}
 	
 	/**
-	 * Dado um usuário remove o usuário
-	 * @param u dados do usuario
+	 * Faz a busca de usuário por login
+	 * @param login do usuário
+	 * @return usuário
 	 */
-	public void remover(Usuario u){
-		this.repositorio.remover(u);
+	public Usuario buscarPorLogin(String login){
+		Usuario usuario = null;
+		Query query = null;
+
+		String pesquisa = "select u from Usuario u where u.login=:login";
+		query = manager.createQuery(pesquisa);
+		query.setParameter("login", login);
+		
+		try{
+			usuario = (Usuario) query.getSingleResult();
+		}catch (NoResultException nre) {
+			System.out.println("Erro: " + nre.getMessage());
+			return(null);
+		}
+			
+		return (usuario);
 	}
 	
 	/**
@@ -103,4 +144,52 @@ public class UsuarioDAO {
 		String query = "select u from Usuario u";
 		return manager.createQuery(query, Usuario.class).getResultList();
 	}
+	
+	/**
+	 * Faz a busca de usuário de acordo com o tipo selecionado
+	 * @param conteudo dado do usuário
+	 * @param tipo tipo da busca pode ser nome, email, ou login
+	 * @return usuario contendo o resultado da busca
+	 */
+	public Usuario buscarPorConteudo(String conteudo, String tipo){
+		Usuario usuario=null;
+		switch (tipo) {
+		case "nome":
+			usuario = this.buscarPorNome(conteudo);
+			break;
+		case "email":
+			usuario = this.buscarPorEmail(conteudo);
+			break;
+		case "login":
+			usuario = this.buscarPorLogin(conteudo);
+			break;
+		default:
+			usuario = null;
+			break;
+		}
+		return usuario;
+	}
+
+	/**
+	 * Dado um usuário remove o usuário
+	 * @param u dados do usuario
+	 */
+	public void remover(Usuario u){
+		manager.remove(u);
+	}
+	
+	/**
+	 * Dado um usuário original alterar os dados do usuário
+	 * @param original dados originais
+	 * @param novo novos dados
+	 */
+	public void alterar(Usuario original, Usuario novo){
+		//TODO implementar o alterar usando JPA
+		/*
+		 * Carrega os dados do usuário original
+		 * Passa os dados do novo usuario
+		 * salva os novos dados do usuarío com o mesmo ID
+		 */
+	}
+	
 }
