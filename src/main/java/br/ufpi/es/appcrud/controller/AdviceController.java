@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.controller;
+package br.ufpi.es.appcrud.controller;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

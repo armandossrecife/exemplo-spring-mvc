@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.config;
+package br.ufpi.es.appcrud.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +15,12 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.controller.AcessoController;
-import br.ufpi.es.exemplo_spring_mvc_basico.controller.AdviceController;
-import br.ufpi.es.exemplo_spring_mvc_basico.controller.UsuarioController;
-import br.ufpi.es.exemplo_spring_mvc_basico.dados.LogAcessoDAO;
-import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
-import br.ufpi.es.exemplo_spring_mvc_basico.infra.FileSaver;
+import br.ufpi.es.appcrud.controller.AcessoController;
+import br.ufpi.es.appcrud.controller.AdviceController;
+import br.ufpi.es.appcrud.controller.UsuarioController;
+import br.ufpi.es.appcrud.dados.LogAcessoDAO;
+import br.ufpi.es.appcrud.dados.UsuarioDAO;
+import br.ufpi.es.appcrud.infra.FileSaver;
 
 @Configuration
 @ComponentScan(basePackageClasses={AcessoController.class, UsuarioController.class, UsuarioDAO.class, AdviceController.class, LogAcessoDAO.class, FileSaver.class})

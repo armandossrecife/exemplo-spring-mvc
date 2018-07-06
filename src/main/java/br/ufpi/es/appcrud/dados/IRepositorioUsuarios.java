@@ -1,8 +1,8 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.dados;
+package br.ufpi.es.appcrud.dados;
 
 import java.util.List;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
+import br.ufpi.es.appcrud.modelo.Usuario;
 
 public interface IRepositorioUsuarios {
 	public void inserir(Usuario u);

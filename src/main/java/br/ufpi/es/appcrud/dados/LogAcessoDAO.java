@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.dados;
+package br.ufpi.es.appcrud.dados;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.modelo.LogAcesso;
+import br.ufpi.es.appcrud.modelo.LogAcesso;
 
 @Repository
 @Transactional

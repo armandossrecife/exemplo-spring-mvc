@@ -1,10 +1,10 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.validation;
+package br.ufpi.es.appcrud.validation;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
+import br.ufpi.es.appcrud.modelo.Usuario;
 
 public class UsuarioValidation implements Validator {
     public boolean supports(Class<?> clazz) {

@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.controller;
+package br.ufpi.es.appcrud.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,10 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
-import br.ufpi.es.exemplo_spring_mvc_basico.infra.FileSaver;
-import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
-import br.ufpi.es.exemplo_spring_mvc_basico.validation.UsuarioValidation;
+import br.ufpi.es.appcrud.dados.UsuarioDAO;
+import br.ufpi.es.appcrud.infra.FileSaver;
+import br.ufpi.es.appcrud.modelo.Usuario;
+import br.ufpi.es.appcrud.validation.UsuarioValidation;
 
 @Controller
 public class UsuarioController {

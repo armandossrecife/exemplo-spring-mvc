@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.modelo;
+package br.ufpi.es.appcrud.modelo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

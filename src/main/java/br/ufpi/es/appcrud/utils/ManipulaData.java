@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.utils;
+package br.ufpi.es.appcrud.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.config;
+package br.ufpi.es.appcrud.config;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;

@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.config;
+package br.ufpi.es.appcrud.config;
 
 import java.util.Properties;
 
@@ -38,7 +38,7 @@ public class JPAConfiguration {
 
         factoryBean.setJpaProperties(props);
 
-        factoryBean.setPackagesToScan("br.ufpi.es.exemplo_spring_mvc_basico");
+        factoryBean.setPackagesToScan("br.ufpi.es.appcrud");
 
         return factoryBean;
     }

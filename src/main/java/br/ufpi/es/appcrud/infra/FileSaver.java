@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.infra;
+package br.ufpi.es.appcrud.infra;
 
 import java.io.File;
 

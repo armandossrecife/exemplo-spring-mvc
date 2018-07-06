@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.config;
+package br.ufpi.es.appcrud.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

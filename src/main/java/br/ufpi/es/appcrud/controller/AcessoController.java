@@ -1,4 +1,4 @@
-package br.ufpi.es.exemplo_spring_mvc_basico.controller;
+package br.ufpi.es.appcrud.controller;
 
 import java.io.IOException;
 import java.util.Date;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.ufpi.es.exemplo_spring_mvc_basico.dados.LogAcessoDAO;
-import br.ufpi.es.exemplo_spring_mvc_basico.dados.UsuarioDAO;
-import br.ufpi.es.exemplo_spring_mvc_basico.modelo.LogAcesso;
-import br.ufpi.es.exemplo_spring_mvc_basico.modelo.Usuario;
-import br.ufpi.es.exemplo_spring_mvc_basico.utils.ManipulaData;
+import br.ufpi.es.appcrud.dados.LogAcessoDAO;
+import br.ufpi.es.appcrud.dados.UsuarioDAO;
+import br.ufpi.es.appcrud.modelo.LogAcesso;
+import br.ufpi.es.appcrud.modelo.Usuario;
+import br.ufpi.es.appcrud.utils.ManipulaData;
 
 @Controller
 public class AcessoController {	
