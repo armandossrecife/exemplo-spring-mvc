@@ -27,7 +27,7 @@
 		</form>
 	</div>
 	<div>
-	<p><a href="/exemplo-spring-mvc-basico">Voltar</a></p>
+	<p><a href="/appcrudmvc">Voltar</a></p>
 	</div>
 </body>
 </html>

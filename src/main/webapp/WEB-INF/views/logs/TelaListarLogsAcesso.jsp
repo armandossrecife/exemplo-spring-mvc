@@ -31,7 +31,7 @@
 
 	<div>
 		<p>
-			<a href="/exemplo-spring-mvc-basico">Voltar</a>
+			<a href="/appcrudmvc">Voltar</a>
 		</p>
 	</div>
 </body>

@@ -28,7 +28,7 @@
 	</table>
 	<div>
 		<p>
-			<a href="/exemplo-spring-mvc-basico/listarUsuarios">Voltar</a>
+			<a href="/appcrudmvc/listarUsuarios">Voltar</a>
 		</p>
 	</div>
 </body>
