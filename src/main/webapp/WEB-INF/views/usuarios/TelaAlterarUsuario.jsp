@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,10 +12,10 @@
 		<form action="alterarUsuario" id="formalterausuario" method="post" name="formalterausuario" enctype="multipart/form-data">
 			<input name="id" type="hidden" value="${usuario.id}" value="id" />
 			<p>Alterar usuário</p>
-			Nome: <input name="nome" type="text" value="${usuario.nome}"><br>
-			Login: <input name="login" type="text" value="${usuario.login}"><br>
-			E-mail: <input name="email" type="text" value="${usuario.email}"><br>
-			Senha: <input name="senha" type="password"><br>
+			Nome: <input name="nome" type="text" value="${usuario.nome}"><form:errors path="usuario.nome" /><br>
+			Login: <input name="login" type="text" value="${usuario.login}"><form:errors path="usuario.login" /><br>
+			E-mail: <input name="email" type="text" value="${usuario.email}"><form:errors path="usuario.email" /><br>
+			Senha: <input name="senha" type="password"><form:errors path="usuario.senha" /><br>
 			Confirma senha: <input name="confirmasenha" type="password"><br> 
 			Imagem: ${usuario.imagemPath}<input name="imagem" type="file"/>
 			<p>

@@ -151,10 +151,8 @@ public class UsuarioController {
 				usuario.setImagemPath(path);				
 			}
 			
-			//Com os novos dados passados chama o método alterar Usuário do DAO
-			//TODO fazer a alteração de acordo com o id do usuário alterado dados originais x novos dados
 			usuarioDAO.alterar(usuario);
-			redirectAttribute.addFlashAttribute("mensagem", "Usuário alterado com sucesso!");
+			redirectAttribute.addFlashAttribute("mensagem", "Usuário " + usuario.getId() + " alterado com sucesso!");
 			return new ModelAndView("redirect:/listarUsuarios");
 		}else {
 			return new ModelAndView("Home");
@@ -229,6 +227,13 @@ public class UsuarioController {
 		}		
 	}
 	
+	//recurso 9
+	/**
+	 * Mostra detalhes do usuário selecionado
+	 * @param id do usuário
+	 * @param session do usuário logado na aplicação
+	 * @return view TelaDetalhesUsuario.jsp | Home.jsp
+	 */
 	@RequestMapping("/detalharUsuario")
 	public ModelAndView processarDetalhesUsuario(int id, HttpSession session){
 		if (session.getAttribute("objetoUsuario") != null){
@@ -236,6 +241,25 @@ public class UsuarioController {
 			Usuario usuario = usuarioDAO.buscarPorId(id);
 			mav.addObject("usuario", usuario);
 			return mav;
+		}else{
+			return new ModelAndView("Home");
+		}
+	}
+
+	/**
+	 * Remove o usuáro seleconado
+	 * @param id do usuário selecionado
+	 * @param session do usuário logado na aplicação
+	 * @param redirectAttribute mensagem do tipo flash para evitar repetição de post
+	 * @return view listaUsuários | Home.jsp
+	 */
+	@RequestMapping("/removerUsuario")
+	public ModelAndView processarRemoverUsuario(int id, HttpSession session, RedirectAttributes redirectAttribute){
+		if (session.getAttribute("objetoUsuario") != null){
+			Usuario usuario = usuarioDAO.buscarPorId(id);
+			usuarioDAO.remover(usuario);
+			redirectAttribute.addFlashAttribute("mensagem", "Usuario " + id + " removido com sucesso!");
+			return new ModelAndView("redirect:/listarUsuarios");
 		}else{
 			return new ModelAndView("Home");
 		}

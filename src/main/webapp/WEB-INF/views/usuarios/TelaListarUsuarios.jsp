@@ -16,6 +16,8 @@
 			<td>Nome</td>
 			<td>E-mail</td>
 			<td>Detalhes</td>
+			<td>Alterar</td>
+			<td>Remover</td>
 		</tr>
 
 		<c:forEach items="${usuarios}" var="usuario">
@@ -25,6 +27,7 @@
 				<td>${usuario.email}</td>
 				<td><a href="detalharUsuario?id=${usuario.id}">detalhes</a></td>
 				<td><a href="formularioAlterarUsuario?id=${usuario.id}">alterar</a></td>
+				<td><a href="removerUsuario?id=${usuario.id}">Remover</a></td>
 			</tr>
 		</c:forEach>
 	</table>

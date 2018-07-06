@@ -175,7 +175,12 @@ public class UsuarioDAO {
 	 * @param u dados do usuario
 	 */
 	public void remover(Usuario u){
-		manager.remove(u);
+		/*
+		 * It works only on entities which are managed in the current transaction/context. In this case, 
+		 * you're retrieving the entity in an earlier transaction, storing it in the HTTP session and then 
+		 * attempting to remove it in a different transaction/context. 
+		 */
+		manager.remove(manager.contains(u) ? u : manager.merge(u));
 	}
 	
 	/**
@@ -184,28 +189,7 @@ public class UsuarioDAO {
 	 * @param novo novos dados
 	 */
 	public void alterar(Usuario novo){
-		//TODO revisar a implementação do alterar usando JPA
-		/*
-		 * Carrega os dados do usuário original
-		 * Passa os dados do novo usuario
-		 * salva os novos dados do usuário com o mesmo ID
-		 */
-		Query query = null;
-
-		String updateQuery = "update Usuario u set u.nome=:nome, u.login=:login, u.email = :email, u.senha=:senha, u.imagemPath=:imagemPath where u.id=" + novo.getId();
-		query = manager.createQuery(updateQuery);
-		query.setParameter("nome", novo.getNome());
-		query.setParameter("login", novo.getLogin());
-		query.setParameter("email", novo.getEmail());
-		query.setParameter("senha", novo.getSenha());
-		query.setParameter("imagemPath", novo.getImagemPath());
-		
-		try{
-			System.out.println("Resultado do update: " + query.executeUpdate());
-		}catch (NoResultException nre) {
-			System.out.println("Erro: " + nre.getMessage());
-		}
-			
+		manager.merge(novo);
 	}
 
 	/**
