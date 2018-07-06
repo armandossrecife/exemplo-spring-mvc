@@ -10,13 +10,13 @@
 </head>
 <body>
 	<p>${mensagem}</p>
-	<table>
+	<table border="1">
 		<tr>
-			<td>Id</td>
-			<td>Nome</td>
-			<td>Login</td>
-			<td>E-mail</td>
-			<td>Imagem</td>
+			<th>Id</th>
+			<th>Nome</th>
+			<th>Login</th>
+			<th>E-mail</th>
+			<th>Imagem</th>
 		</tr>
 		<tr>
 			<td>${usuario.id}</td>

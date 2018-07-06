@@ -10,14 +10,14 @@
 </head>
 <body>
 	<p>${mensagem}</p>
-	<table>
+	<table border="1">
 		<tr>
-			<td>Id</td>
-			<td>Nome</td>
-			<td>E-mail</td>
-			<td>Detalhes</td>
-			<td>Alterar</td>
-			<td>Remover</td>
+			<th>Id</th>
+			<th>Nome</th>
+			<th>E-mail</th>
+			<th>Detalhes</th>
+			<th>Alterar</th>
+			<th>Remover</th>
 		</tr>
 
 		<c:forEach items="${usuarios}" var="usuario">

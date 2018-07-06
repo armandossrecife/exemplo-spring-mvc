@@ -12,11 +12,11 @@
 		<form action="alterarUsuario" id="formalterausuario" method="post" name="formalterausuario" enctype="multipart/form-data">
 			<input name="id" type="hidden" value="${usuario.id}" value="id" />
 			<p>Alterar usuário</p>
-			Nome: <input name="nome" type="text" value="${usuario.nome}"><form:errors path="usuario.nome" /><br>
-			Login: <input name="login" type="text" value="${usuario.login}"><form:errors path="usuario.login" /><br>
-			E-mail: <input name="email" type="text" value="${usuario.email}"><form:errors path="usuario.email" /><br>
-			Senha: <input name="senha" type="password"><form:errors path="usuario.senha" /><br>
-			Confirma senha: <input name="confirmasenha" type="password"><br> 
+			Nome: <input name="nome" type="text" value="${usuario.nome}" required><form:errors path="usuario.nome" /><br>
+			Login: <input name="login" type="text" value="${usuario.login}" required><form:errors path="usuario.login" /><br>
+			E-mail: <input name="email" type="text" value="${usuario.email}" required><form:errors path="usuario.email" /><br>
+			Senha: <input name="senha" type="password" required><form:errors path="usuario.senha" /><br>
+			Confirma senha: <input name="confirmasenha" type="password" required><br> 
 			Imagem: ${usuario.imagemPath}<input name="imagem" type="file"/>
 			<p>
 				<input name="botaoalterar" type="submit" value="Alterar" />

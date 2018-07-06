@@ -11,11 +11,11 @@
 	<div>
 		<form action="inserirUsuario" id="forminsereusuario" method="post" name="forminsereusuario" enctype="multipart/form-data">
 			<p>Inserir usuário</p> 
-			Nome: <input name="nome" type="text"><form:errors path="usuario.nome" /><br>
-			Login: <input name="login" type="text"><form:errors path="usuario.login"/><br>
-			E-mail: <input name="email" type="text"><form:errors path="usuario.email" /><br>
-			Senha: <input name="senha" type="password"><form:errors path="usuario.senha" /><br>
-			Confirma Senha: <input name="confirmasenha" type="password"><form:errors path="usuario.senha" /><br>
+			Nome: <input name="nome" type="text" required><form:errors path="usuario.nome" /><br>
+			Login: <input name="login" type="text" required><form:errors path="usuario.login"/><br>
+			E-mail: <input name="email" type="text" required><form:errors path="usuario.email" /><br>
+			Senha: <input name="senha" type="password" required><form:errors path="usuario.senha" /><br>
+			Confirma Senha: <input name="confirmasenha" type="password" required><form:errors path="usuario.senha" /><br>
 			Imagem: <input name="imagem" type="file"/>
 			<p>
 				<input name="botaoInserir" type="submit" value="Inserir" />

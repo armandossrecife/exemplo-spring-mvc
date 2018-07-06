@@ -19,8 +19,7 @@
 			</p>
 
 			<p>
-				Conteúdo<input maxlength="50" name="conteudobusca" size="50"
-					type="text" />
+				Conteúdo<input maxlength="50" name="conteudobusca" size="50" type="text" required/>
 			</p>
 			<p>
 				<input name="botaobuscar" type="submit" value="Buscar" />

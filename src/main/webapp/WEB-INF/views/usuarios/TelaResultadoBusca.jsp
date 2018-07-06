@@ -11,11 +11,11 @@
 <body>
 	<p>${mensagem}</p>
 	<c:if test="${not empty usuario.id}">
-		<table>
+		<table border="1">
 			<tr>
-				<td>Id</td>
-				<td>Nome</td>
-				<td>E-mail</td>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>E-mail</th>
 			</tr>
 			<tr>
 				<td>${usuario.id}</td>
